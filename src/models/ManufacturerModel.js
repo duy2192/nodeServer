@@ -23,6 +23,64 @@ const ManufacturerModel = {
       }
     );
   },
+  async update(data, result) {
+    const query = `update manufacturer set name=?,decription=?,updatedby=? where manuid=?;    `;
+    sql.query(
+      query,
+      [data.name, data.decription, data.updatedby,data.manuid],
+      (err, res) => {
+        try {
+          if (err) {
+            throw "Không thể cập nhật hãng sản xuất"
+          } else {
+            result(null, "Cập nhật hãng sản xuất thành công");
+            return;
+          }
+        } catch (error) {
+          result(error, null);
+        }
+      }
+    );
+  },
+  async delete(data, result) {
+    const query = `Delete from manufacturer where manuid=?;    `;
+    sql.query(
+      query,
+      [data.manuid],
+      (err, res) => {
+        try {
+          if (err) {
+            throw "Không thể xóa hãng sản xuất"
+          } else {
+            result(null, "Xóa hãng sản xuất thành công");
+            return;
+          }
+        } catch (error) {
+          result(error, null);
+        }
+      }
+    );
+  },
+  async getAll(result) {
+    const query = `SELECT distinct manufacturer.*,count(product.manuid) as countproduct FROM manufacturer,product where manufacturer.manuid=product.manuid group by  manufacturer.manuid order by manufacturer.manuid ASC;
+    select distinct manufacturer.*,0 as countproduct from manufacturer,product where manufacturer.manuid not in ( select product.manuid from product);
+     SELECT distinct manufacturer.*,categories.categoryid from manufacturer,categories,product where manufacturer.manuid=product.manuid and categories.categoryid=product.categoryid`;
+    sql.query(query, (err, res) => {
+      try {
+        if (err) {
+          throw "Không tìm thấy hãng sản xuất!";
+        }
+        if (res.length) {
+          const data = res[0].concat(res[1])
+          result(null, data);
+          return;
+        }
+        throw "Không tìm thấy hãng sản xuất!";
+      } catch (error) {
+        result(error, null);
+      }
+    });
+  },
   async get(result) {
     const query = `SELECT * from manufacturer`;
     sql.query(query, (err, res) => {

@@ -2,6 +2,10 @@ import sql  from "./index.js";
 
 const ProductModel = {
   async create(data, result) {
+    if(data.name===""||data.price===""){
+      result("Tên sản phẩm và giá không được trống!", null);
+      return;
+    }
     const query = `INSERT INTO product (categoryid,manuid,name,decription,quantity,price,saleprice,isfreeship,thumbnail,createdby,updatedby) values (?,?,?,?,?,?,?,?,?,?,?);`;
     sql.query(
       query,
@@ -35,6 +39,10 @@ const ProductModel = {
     );
   },
   async update(data, result) {
+    if(data.name===""||data.price===""){
+      result("Tên sản phẩm và giá không được trống!", null);
+      return;
+    }
     const query = `Update product set categoryid=? , manuid=? , name=? ,decription=?, quantity=?,price=?,saleprice=?,isfreeship=?,thumbnail=?,updatedby=? where productid=?;`;
     sql.query(
       query,

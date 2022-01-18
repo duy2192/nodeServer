@@ -1,4 +1,5 @@
 import ProductModel from "../models/ProductModel.js";
+
 const ProductController={
 create : async (req, res) => {
   if (!req.body) {
@@ -7,8 +8,8 @@ create : async (req, res) => {
     });
   }
   const data = {
-    name: req.body.name,
-    decription: req.body.decription,
+    name:      req.body.name,
+    decription:req.body.decription,
     thumbnail: req.body.thumbnail||'public/uploads/img/static/blank.png',
     price: req.body.price,
     saleprice: req.body.saleprice,

@@ -147,6 +147,7 @@ const OrderModel = {
       (err, res) => {
         try {
           if (err) {
+            
             throw "Không thể xóa đơn hàng!";
           }
           else {

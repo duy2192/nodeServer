@@ -2,6 +2,10 @@ import sql from"./index.js";
 
 const CategoriesModel = {
   async create(data, result) {
+    if(data.name===""){
+      result("Chưa nhập tên danh mục!",null );
+      return;
+    }
     const query = `INSERT INTO categories (name,decription,createdby,updatedby) values (?,?,?,?);    `;
     sql.query(
       query,
@@ -23,6 +27,10 @@ const CategoriesModel = {
     );
   },
   async update(data, result) {
+    if(data.name===""){
+      result("Chưa nhập tên danh mục!",null );
+      return;
+    }
     const query = `update categories set name=?,decription=?,updatedby=? where categoryid=?;    `;
     sql.query(
       query,
